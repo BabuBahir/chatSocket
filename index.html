@@ -6,7 +6,13 @@
     <script>
       var socket = io();
         function setUsername(){
-            socket.emit('setUsername', document.getElementById('name').value);
+		   var nickname = (document.getElementById('name').value).trim();
+		   if(nickname){
+            socket.emit('setUsername', nickname);
+			}
+			else{
+				alert('Enter Valid User Name !! ');
+			}
         };
         var user;
         socket.on('userExists', function(data){
