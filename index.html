@@ -2,6 +2,7 @@
 <html>
     <head><title>Hello world</title></head>
     <script src="/socket.io/socket.io.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
     <script>
       var socket = io();
         function setUsername(){
@@ -13,26 +14,38 @@
         });
         socket.on('userSet', function(data){
             user = data.username;			
-            document.body.innerHTML = '<i style="color:red;">'+ user + ' </i> : \
+            document.body.innerHTML = '<div onKeyPress="return checkSubmit(event)"><i style="color:red;">'+ user + ' </i> : \
 			<input type="text" id="message">\
-            <button type="button" name="button" onclick="sendMessage()">Send</button>\
-            <div id="message-container"></div>';
+            <button type="button" name="button" onclick="sendMessage()" >Send</button>\
+            <div id="message-container"></div></div>';
         });
         function sendMessage(){
             var msg = document.getElementById('message').value;
             if(msg){
                 socket.emit('msg', {message: msg, user: user});
-            }
+				
+				// clearing text box
+				document.getElementById('message').value = "";
+				// setting focus on text box every time
+				document.getElementById("message").focus();
+            }		
+			console.log(msg);			
         }
+		 
+		function checkSubmit(e) {
+			if(e && e.keyCode == 13) {
+			  sendMessage(); //if enter send text
+			}
+		}
         socket.on('newmsg', function(data){
             if(user){
                 document.getElementById('message-container').innerHTML += '<div><b>' + data.user + '</b>: ' + data.message + '</div>'
             }
-        })
+        })		
     </script>
     <body>
         <div id="error-container"></div>
         <input id="name" type="text" name="name" value="" placeholder="Enter your name!">
         <button type="button" name="button" onclick="setUsername()">Let me chat!</button>
-    </body>
+    </body> 
 </html>
