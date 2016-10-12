@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html> 
     <head><title>Hello world</title></head>	
     <script src="/socket.io/socket.io.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
@@ -22,15 +22,17 @@
         socket.on('userExists', function(data){
             document.getElementById('error-container').innerHTML = data;
         });
-        socket.on('userSet', function(data){
-            user = data.username;			
-            document.body.innerHTML = '<div class="container"><div class="row"><div class="col-sm-6 col-lg-6">\
-			<br/><div onKeyPress="return checkSubmit(event)"><i style="color:red;">'+ user + ' </i> : \
-			<input type="text" id="message">\
+        socket.on('userSet', function(data){			 
+            user = (data.username).split(',');		 
+            document.getElementById('main').innerHTML = '<div onKeyPress="return checkSubmit(event)"><div id="user_count"class="alert alert-danger"></div>\
+			<i style="color:red;">'+ user + ' </i> : <input type="text" id="message">\
             <button type="button" name="button" onclick="sendMessage()" >Send</button>\
             <table id="one"><tbody id="message-container"></tbody></table>\
-			</div></div></div></div>';		
+			</div>';		
         });
+		socket.on('news', function (data) { 					 			
+					document.getElementById('user_count').innerHTML=data.message + " Users Connceted";
+			});
         function sendMessage(){
             var msg = document.getElementById('message').value;
             if(msg){
@@ -41,7 +43,7 @@
 				// setting focus on text box every time
 				document.getElementById("message").focus();
             }		
-			console.log(msg);			
+			// insert ELSE logic here	
         }
 		 
 		function checkSubmit(e) {
@@ -56,12 +58,16 @@
             }
         })		
     </script>
-    <body>
+    <body id="body">
 	    <br/>
 		<div class="container">
-			<div id="error-container"></div>
-			<input id="name" type="text" name="name" value="" placeholder="Enter your name!">
-			<button type="button" name="button" onclick="setUsername()">Let me chat!</button>
+			<div class="row"><div class="col-sm-6 col-lg-6">				 								
+				<div id ="main">
+					<div id="error-container"></div>
+					<input id="name" type="text" name="name" value="" placeholder="Enter your name!">
+					<button type="button" name="button" onclick="setUsername()">Let me chat!</button>
+				</div>
+			</div>
 		</div>
     </body> 
 </html>
