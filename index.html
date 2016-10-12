@@ -33,6 +33,15 @@
 		socket.on('news', function (data) { 					 			
 					document.getElementById('user_count').innerHTML=data.message + " Users Connceted";
 			});
+	    socket.on('newmsg', function(data){
+			if(user){
+				document.getElementById('message-container').innerHTML += '<tr>\
+				<th>' + data.user + '</b>: ' + data.message + '</th></tr>';} 
+		   });
+		 socket.on('disconnect', function(data){
+			if(user){
+				alert(user);} 
+		   });  
         function sendMessage(){
             var msg = document.getElementById('message').value;
             if(msg){
@@ -44,19 +53,12 @@
 				document.getElementById("message").focus();
             }		
 			// insert ELSE logic here	
-        }
-		 
+        };		 
 		function checkSubmit(e) {
 			if(e && e.keyCode == 13) {
 			  sendMessage(); //if enter send text
 			}
-		}
-        socket.on('newmsg', function(data){
-            if(user){
-                document.getElementById('message-container').innerHTML += '<tr>\
-				<th>' + data.user + '</b>: ' + data.message + '</th></tr>';     
-            }
-        })		
+		};     		
     </script>
     <body id="body">
 	    <br/>

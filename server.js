@@ -24,7 +24,13 @@ io.on('connection', function(socket){
   socket.on('msg', function(data){
       //Send message to everyone
       io.sockets.emit('newmsg', data);		
-  })
+  }); 
+  socket.on('disconnect', function (data) {
+	  users.length= users.length -1;
+	  io.sockets.emit('news', { message: ((users.length).toString()) });
+     console.log('disconnected :'+data);
+  });
+  
  
 });
 http.listen(process.env.PORT || 3000, function(){
