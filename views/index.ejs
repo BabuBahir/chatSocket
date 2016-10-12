@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+    <head><title>Hello world</title></head>	
+    <script src="/socket.io/socket.io.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="/styles.css">
+    <script>
+      var socket = io();
+        function setUsername(){
+		   var nickname = (document.getElementById('name').value).trim();
+		   if(nickname){
+            socket.emit('setUsername', nickname);
+			}
+			else{
+				alert('Enter Valid User Name !! ');
+			}
+        };
+        var user;
+        socket.on('userExists', function(data){
+            document.getElementById('error-container').innerHTML = data;
+        });
+        socket.on('userSet', function(data){
+            user = data.username;			
+            document.getElementById('main').innerHTML = '<div onKeyPress="return checkSubmit(event)"><div class="alert alert-danger"><%= message %> Users Connceted</div>\
+			<i style="color:red;">'+ user + ' </i> : <input type="text" id="message">\
+            <button type="button" name="button" onclick="sendMessage()" >Send</button>\
+            <table id="one"><tbody id="message-container"></tbody></table>\
+			</div>';		
+        });
+        function sendMessage(){
+            var msg = document.getElementById('message').value;
+            if(msg){
+                socket.emit('msg', {message: msg, user: user});
+				
+				// clearing text box
+				document.getElementById('message').value = "";
+				// setting focus on text box every time
+				document.getElementById("message").focus();
+            }		
+			console.log(msg);			
+        }
+		 
+		function checkSubmit(e) {
+			if(e && e.keyCode == 13) {
+			  sendMessage(); //if enter send text
+			}
+		}
+        socket.on('newmsg', function(data){
+            if(user){
+                document.getElementById('message-container').innerHTML += '<tr>\
+				<th>' + data.user + '</b>: ' + data.message + '</th></tr>';     
+            }
+        })		
+    </script>
+    <body id="body">
+	    <br/>
+		<div class="container">
+			<div class="row"><div class="col-sm-6 col-lg-6">				 								
+				<div id ="main">
+					<div id="error-container"></div>
+					<input id="name" type="text" name="name" value="" placeholder="Enter your name!">
+					<button type="button" name="button" onclick="setUsername()">Let me chat!</button>
+				</div>
+			</div>
+		</div>
+    </body> 
+</html>

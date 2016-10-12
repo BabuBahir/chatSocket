@@ -7,7 +7,9 @@ var path = require('path')
 
 
 app.get('/', function(req, res){
-  res.sendFile(__dirname + '/index.html');
+  //res.sendFile(__dirname + '/index.html');
+   var usersCount = (users.length+1).toString();
+  res.render('index.ejs' , { message: usersCount});  
 });
 
 //serve static files 
@@ -16,7 +18,7 @@ app.use(express.static(__dirname + '/public'));
 users = [];
 io.on('connection', function(socket){  
   socket.on('setUsername', function(data){
-      console.log(data);     
+      console.log(data +": connected  ");     
       users.push(data);
       socket.emit('userSet', {username: data});   	 
   });
