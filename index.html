@@ -3,6 +3,9 @@
     <head><title>Hello world</title></head>
     <script src="/socket.io/socket.io.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script>
       var socket = io();
         function setUsername(){
@@ -20,10 +23,11 @@
         });
         socket.on('userSet', function(data){
             user = data.username;			
-            document.body.innerHTML = '<div onKeyPress="return checkSubmit(event)"><i style="color:red;">'+ user + ' </i> : \
+            document.body.innerHTML = '<div class="container"><div class="row"><div class="col-sm-6 col-md-4 col-lg-2">\
+			<div onKeyPress="return checkSubmit(event)"><i style="color:red;">'+ user + ' </i> : \
 			<input type="text" id="message">\
             <button type="button" name="button" onclick="sendMessage()" >Send</button>\
-            <div id="message-container"></div></div>';
+            <div id="message-container"></div></div></div></div></div>';
         });
         function sendMessage(){
             var msg = document.getElementById('message').value;
