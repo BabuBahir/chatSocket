@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html>
-    <head><title>Hello world</title></head>
+    <head><title>Hello world</title></head>	
     <script src="/socket.io/socket.io.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="/styles.css">
     <script>
       var socket = io();
         function setUsername(){
@@ -27,7 +28,8 @@
 			<br/><div onKeyPress="return checkSubmit(event)"><i style="color:red;">'+ user + ' </i> : \
 			<input type="text" id="message">\
             <button type="button" name="button" onclick="sendMessage()" >Send</button>\
-            <div id="message-container"></div></div></div></div></div>';
+            <table id="one"><tbody id="message-container"></tbody></table>\
+			</div></div></div></div>';		
         });
         function sendMessage(){
             var msg = document.getElementById('message').value;
@@ -49,7 +51,8 @@
 		}
         socket.on('newmsg', function(data){
             if(user){
-                document.getElementById('message-container').innerHTML += '<div><b>' + data.user + '</b>: ' + data.message + '</div>'
+                document.getElementById('message-container').innerHTML += '<tr>\
+				<th>' + data.user + '</b>: ' + data.message + '</th></tr>';     
             }
         })		
     </script>
