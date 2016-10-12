@@ -23,7 +23,7 @@
         });
         socket.on('userSet', function(data){
             user = data.username;			
-            document.body.innerHTML = '<div class="container"><div class="row"><div class="col-sm-6 col-md-4 col-lg-2">\
+            document.body.innerHTML = '<div class="container"><div class="row"><div class="col-sm-6 col-lg-6">\
 			<div onKeyPress="return checkSubmit(event)"><i style="color:red;">'+ user + ' </i> : \
 			<input type="text" id="message">\
             <button type="button" name="button" onclick="sendMessage()" >Send</button>\
