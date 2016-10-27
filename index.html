@@ -25,22 +25,22 @@
         socket.on('userSet', function(data){			 
             user = (data.username).split(',');		 
             document.getElementById('main').innerHTML = '<div onKeyPress="return checkSubmit(event)"><div id="user_count"class="alert alert-danger"></div>\
-			<i style="color:red;">'+ user + ' </i> : <input type="text" id="message">\
+			<i id="nick" style="color:red;">'+ user + ' </i> : <input type="text" id="message">\
             <button type="button" name="button" onclick="sendMessage()" >Send</button>\
             <table id="one"><tbody id="message-container"></tbody></table>\
 			</div>';		
         });
 		socket.on('news', function (data) { 					 			
-					document.getElementById('user_count').innerHTML=data.message + " Users Connceted";
+					document.getElementById('user_count').innerHTML=data.message + " Users Connected";
 			});
 	    socket.on('newmsg', function(data){
 			if(user){
 				document.getElementById('message-container').innerHTML += '<tr>\
-				<th>' + data.user + '</b>: ' + data.message + '</th></tr>';} 
+				<th>' + data.user + '</b>: ' + data.message + '</th></tr>';
+				} 
 		   });
-		 socket.on('disconnect', function(data){
-			if(user){
-				alert(user);} 
+		 socket.on('disconnect', function(data){							 
+				  alert(user);				
 		   });  
         function sendMessage(){
             var msg = document.getElementById('message').value;
@@ -58,7 +58,8 @@
 			if(e && e.keyCode == 13) {
 			  sendMessage(); //if enter send text
 			}
-		};     		
+		};  
+		   		
     </script>
     <body id="body">
 	    <br/>

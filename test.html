@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+	<head><title>Hello world</title></head>
+	<script src="/socket.io/socket.io.js"></script>
+	<script>
+	  var socket = io();
+ 
+	  socket.on('connect', function(){});
+	  socket.on('event', function(data){});
+	  socket.on('disconnect', function(){alert('data');});
+	</script>
+	<body>Hello world</body>
+</html>
